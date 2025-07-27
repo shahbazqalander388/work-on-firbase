@@ -1,0 +1,78 @@
+<!-- HTML -->
+<input type="email" id="email" placeholder="Enter email" />
+<input type="password" id="password" placeholder="Enter password" />
+<button class="btn">Register</button>
+<div>
+    <h2>
+        login existing user
+    </h2>
+    <input type="email" name="loginemail" id="loginemail">
+    <input type="password" name="" id="loginpassword">
+    <button class="loginbtn">login existing account</button>
+</div>
+
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  import { getAuth, createUserWithEmailAndPassword ,signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCmbAUomD_wcX4Lzb__Mx5teV7FJurxAYk",
+    authDomain: "demo2-2c591.firebaseapp.com",
+    projectId: "demo2-2c591",
+    storageBucket: "demo2-2c591.appspot.com", // ✅ fixed
+    messagingSenderId: "699901197154",
+    appId: "1:699901197154:web:5d9726907e01f117e00a3b",
+    measurementId: "G-JFTXYH5Z8P"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  console.log("Firebase initialized");
+
+  const emailInput = document.querySelector("#email");
+  const passwordInput = document.querySelector("#password");
+  const btn = document.querySelector(".btn");
+
+  btn.addEventListener("click", registerUser);
+
+  function registerUser() {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("User created successfully:", user);
+        alert("User Registered Successfully");
+      })
+      .catch((error) => {
+        console.error("Error:", error.code, error.message);
+        alert("Error: " + error.message);
+      });
+  }
+  const loginemail=document.querySelector("#loginemail");
+  const loginpassword=document.querySelector("#loginpassword"); 
+  const loginbtn=document.querySelector(".loginbtn");
+  loginbtn.addEventListener("click",loginuser)
+  function loginuser(){
+    const email=loginemail.value;
+    const password=loginpassword.value;
+    console.log(auth,email,password);
+    signInWithEmailAndPassword(auth,email,password)
+    .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+
+    
+  }
+</script>
